@@ -7,7 +7,10 @@
       "dateInscription": "",
       "categorie": "C",
       "prix": "75",
-      "id": "b7c3"
+      "id": "b7c3",
+      "email": "client@client",
+      "role": "client",
+      "password": "client@client"
     },
     {
       "firstName": "Yahya",
@@ -28,13 +31,13 @@
       "prix": "3000"
     },
     {
-      "id": "5206",
       "firstName": "yahya",
       "lastName": "tirsi",
       "telephone": "2187278827",
-      "dateInscription": "2025-02-08",
+      "dateInscription": "",
       "categorie": "D",
-      "prix": "2000"
+      "prix": "2000",
+      "id": "5206"
     },
     {
       "firstName": "yahya",
