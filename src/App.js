@@ -22,6 +22,12 @@ import Sidebar from "./Backend/Sidebar";
 import Dashboard from "./Backend/Dashboard";
 import Clients from "./Backend/pages/Clients";
 import Categories from "./Backend/pages/Categories";
+import Moniteure from "./Backend/pages/Moniteure";
+import Vihucule from "./Backend/pages/Vihucule";
+import Deponses from "./Backend/pages/Deponses";
+import DemoApp from "./Backend/Calendar/DemoApp";
+import Statistiques from "./Backend/pages/statistics/Statistiques";
+import StatisticsPage from "./Backend/pages/statistics/Statistiques";
 
 // Custom hook to check the current route inside the BrowserRouter
 const useIsDashboardRoute = () => {
@@ -83,10 +89,14 @@ function Main() {
               <div style={{ flex: 1 }}>
                 <Navbar /> {/* Navbar for dashboard */}
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/" element={<StatisticsPage />} />
+                  <Route path="/statistiques" element={<StatisticsPage />} />
                   <Route path="/clients" element={<Clients />} />
                   <Route path="/categories" element={<Categories />} />
-                 
+                  <Route path="/moniteure" element={<Moniteure />} />
+                  <Route path="/vihucule" element={<Vihucule />} />
+                  <Route path="/deponses" element={<Deponses />} />
+                  <Route path="/calendar" element={<DemoApp />} />
                 </Routes>
               </div>
             </div>

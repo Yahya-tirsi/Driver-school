@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles.css";
 import { DataGrid } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
@@ -13,7 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { FormControl, MenuItem, Stack } from "@mui/material";
+import { FormControl, MenuItem, Modal, Stack } from "@mui/material";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
@@ -22,7 +22,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import DeleteIcon from "@mui/icons-material/Delete";
 import CardActionArea from "@mui/material/CardActionArea";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import axios from "axios";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -34,21 +37,119 @@ const Clients = () => {
   const [modalPaiment, setmodalPaiment] = useState(false);
   const [clientName, setclientName] = useState("");
   const [permis, setpermis] = useState("Selectionner une catégorie");
+  const [newClient, setNewClient] = useState({
+    firstName: "",
+    lastName: "",
+    telephone: "",
+  });
+  const [clients, setClients] = useState([]);
+  const [nom, setnom] = useState("");
+  const [prenom, setprenom] = useState("");
+  const [categorie, setcategorie] = useState("");
+  const [telephone, settelephone] = useState("");
+  const [adresse, setadresse] = useState("");
+  const [prix, setprix] = useState();
+  const [date, setdate] = useState("");
+  const [id, setid] = useState("");
+  const [openmodalajouter, setopenmodalajouter] = useState(false);
+  const [allCatgegorie, setallCatgeorie] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
-  const typePermis = [
-    "A – Permis moto",
-    "B – Permis auto",
-    "C – Permis professionnels (transport de marchandises ou de matériel)",
-    "D – Permis professionnels (transport de personnes)",
-    "E – Permis remorque",
-  ];
-
-  function handleDelete() {
-    setconfirmdelete(!confirmdelete);
+  function getClients() {
+    axios
+      .get("http://localhost:3004/client")
+      .then((response) => {
+        setClients(response.data);
+        console.log(clients);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }
+
+  // get categorie
+  function getCategorie() {
+    axios
+      .get("http://localhost:3004/categories")
+      .then((response) => {
+        setallCatgeorie(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }
+
+  let i = 0;
+  const handleSubmit = async (eo) => {
+    eo.preventDefault();
+    try {
+      await axios.post("http://localhost:3004/client", {
+        firstName: nom,
+        lastName: prenom,
+        telephone: telephone,
+        dateInscription: date,
+        categorie: categorie,
+        prix: prix,
+        idPaiment: i + 1,
+      });
+      setOpen(!open);
+      Swal.fire("Succès", "Client ajouté avec succès", "success");
+      getClients();
+    } catch (error) {
+      console.error("Erreur lors de l'ajout du client", error);
+    }
+
+    await axios.post("http://localhost:3004/paiment", {
+      idClient: i + 1,
+      totalPaiment: prix,
+      payerFois: [
+        {
+          date: date,
+          prix: prix,
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    getClients();
+    getCategorie();
+  });
+
+  const deleteClient = async (id) => {
+    Swal.fire({
+      title: "Êtes-vous sûr ?",
+      text: "Cette action est irréversible !",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Oui, supprimer",
+      cancelButtonText: "Annuler",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:3004/client/${id}`);
+          Swal.fire("Supprimé", "Le client a été supprimé.", "success");
+          getClients();
+        } catch (error) {
+          console.error("Erreur lors de la suppression :", error);
+          Swal.fire("Erreur", "Impossible de supprimer le client.", "error");
+        }
+      }
+    });
+  };
 
   function handleUpdateClient(client) {
     setclientName(client.firstName);
+    setnom(client.firstName);
+    setprenom(client.lastName);
+    setcategorie(client.categorie);
+    settelephone(client.telephone);
+    setprix(client.prix);
+    setid(client.id);
     setmodelUpdate(!modelUpdate);
   }
 
@@ -57,8 +158,20 @@ const Clients = () => {
     setmodalPaiment(!modalPaiment);
   }
 
-  function handleClose() {
+  // Modifier client
+  function handleUpdate(id) {
+    axios.put(`http://localhost:3004/client/${id}`, {
+      firstName: nom,
+      lastName: prenom,
+      telephone: telephone,
+      dateInscription: date,
+      categorie: categorie,
+      prix: prix,
+    });
+
     setmodelUpdate(false);
+    getClients();
+    Swal.fire("Modifier", "Le client a été modifier", "success");
   }
 
   const columns = [
@@ -73,27 +186,24 @@ const Clients = () => {
       width: 130,
     },
     {
-      field: "categorier",
+      field: "categorie",
       headerName: "Catégorie",
       width: 130,
     },
-    // {
-    //   field: "fullName",
-    //   headerName: "Full name",
-    //   description: "This column has a value getter and is not sortable.",
-    //   sortable: false,
-    //   width: 160,
-    //   valueGetter: (value, row) => `${row.firstName || ""} ${row.lastName || ""}`,
-    // },
+    {
+      field: "prix",
+      headerName: "Prix",
+      width: 130,
+    },
     {
       field: "action",
       headerName: "Action",
-      width: 190,
+      width: 210,
       renderCell: (params) => (
         <div className="container-btn-action-dashboard">
-          <button className="btn-view-dashboeard">
+          {/* <button className="btn-view-dashboeard">
             <i class="fa-regular fa-eye"></i>
-          </button>
+          </button> */}
           <button
             className="btn-modify-dashboeard"
             title="Modifier"
@@ -101,90 +211,21 @@ const Clients = () => {
           >
             <i class="fa-solid fa-pen"></i>
           </button>
-          <button
+          {/* <button
             className="btn-mony-dashboeard"
             title="Paiments"
             onClick={() => handlePaiment(params.row)}
           >
             <i class="fa-solid fa-money-check-dollar"></i>
-          </button>
-          <button className="btn-sup-dashboeard" onClick={() => handleDelete()}>
-            <i class="fa-solid fa-x"></i>
+          </button> */}
+          <button
+            className="btn-sup-dashboeard"
+            onClick={() => deleteClient(params.row.id)}
+          >
+            <DeleteIcon></DeleteIcon>
           </button>
         </div>
       ),
-    },
-  ];
-
-  const rows = [
-    {
-      id: 1,
-      lastName: "Snow",
-      firstName: "Jon",
-      age: 35,
-      telephone: "0658574774",
-      action: (
-        <div>
-          <button>Modifier</button>
-          <button>Supprimer</button>
-        </div>
-      ),
-    },
-    {
-      id: 2,
-      lastName: "Lannister",
-      firstName: "Cersei",
-      age: 42,
-      telephone: "0658574774",
-    },
-    {
-      id: 3,
-      lastName: "Lannister",
-      firstName: "Jaime",
-      age: 45,
-      telephone: "0658574774",
-    },
-    {
-      id: 4,
-      lastName: "Stark",
-      firstName: "Arya",
-      age: 16,
-      telephone: "0658574774",
-    },
-    {
-      id: 5,
-      lastName: "Targaryen",
-      firstName: "Daenerys",
-      age: null,
-      telephone: "0658574774",
-    },
-    {
-      id: 6,
-      lastName: "Melisandre",
-      firstName: null,
-      age: 150,
-      telephone: "0658574774",
-    },
-    {
-      id: 7,
-      lastName: "Clifford",
-      firstName: "Ferrara",
-      age: 44,
-      telephone: "0658574774",
-    },
-    {
-      id: 8,
-      lastName: "Frances",
-      firstName: "Rossini",
-      age: 36,
-      telephone: "0658574774",
-    },
-    {
-      id: 9,
-      lastName: "Roxie",
-      firstName: "Harvey",
-      age: 65,
-      telephone: "0658574774",
     },
   ];
 
@@ -192,15 +233,20 @@ const Clients = () => {
 
   return (
     <div className="page">
-      <div className="p-6">
-        <h2 className="text-2xl font-semibold mb-4 h2-dashboard">
-          Liste des Clients
-        </h2>
+      <div>
+        <Box className="topClient">
+          <h2 className="text-2xl font-semibold mb-4 h2-dashboard">
+            Liste des Clients
+          </h2>
+          <button onClick={handleOpen} className="btnAjouter-client">
+            Ajouter client
+          </button>
+        </Box>
 
         <div className="overflow-x-auto">
           <Paper sx={{ height: 400, width: "100%" }}>
             <DataGrid
-              rows={rows}
+              rows={clients}
               columns={columns}
               initialState={{ pagination: { paginationModel } }}
               pageSizeOptions={[5, 10]}
@@ -237,7 +283,7 @@ const Clients = () => {
             onClose={handleUpdateClient}
             TransitionComponent={Transition}
           >
-            <AppBar sx={{ position: "relative" }}>
+            <AppBar sx={{ position: "relative", backgroundColor: "black" }}>
               <Toolbar>
                 <IconButton
                   edge="start"
@@ -254,7 +300,11 @@ const Clients = () => {
                 >
                   Modification client : {clientName}
                 </Typography>
-                <Button autoFocus color="inherit" onClick={handleClose}>
+                <Button
+                  autoFocus
+                  color="inherit"
+                  onClick={() => handleUpdate(id)}
+                >
                   Sauvegarder
                 </Button>
               </Toolbar>
@@ -282,8 +332,24 @@ const Clients = () => {
                   gap: 2,
                 }}
               >
-                <TextField sx={{ flex: 1 }} label="Nom" variant="standard" />
-                <TextField sx={{ flex: 1 }} label="Prénom" variant="standard" />
+                <TextField
+                  sx={{ flex: 1 }}
+                  label="Nom"
+                  value={nom}
+                  onChange={(eo) => {
+                    setnom(eo.target.value);
+                  }}
+                  variant="standard"
+                />
+                <TextField
+                  sx={{ flex: 1 }}
+                  label="Prénom"
+                  value={prenom}
+                  onChange={(eo) => {
+                    setprenom(eo.target.value);
+                  }}
+                  variant="standard"
+                />
               </Stack>
               <Stack
                 direction={"row"}
@@ -294,15 +360,22 @@ const Clients = () => {
                 <TextField
                   sx={{ flex: 1 }}
                   label="Téléphone"
+                  value={telephone}
                   variant="standard"
+                  onChange={(eo) => {
+                    settelephone(eo.target.value);
+                  }}
                 />
                 <TextField
                   sx={{ flex: 1 }}
-                  label="Adresse"
+                  label="Prix"
                   variant="standard"
+                  value={prix}
+                  onChange={(eo) => {
+                    setprix(eo.target.value);
+                  }}
                 />
               </Stack>
-              <TextField label="Prix" variant="standard" />
               <Stack
                 direction={"row"}
                 sx={{
@@ -318,15 +391,19 @@ const Clients = () => {
                   </InputLabel>
                   <Select
                     labelId="demo-simple-select-standard-label"
-                    value={permis}
-                    onChange={(eo) => setpermis(eo.target.value)}
+                    value={categorie}
+                    onChange={(eo) => {
+                      setcategorie(eo.target.value);
+                    }}
                     label="Permis"
                   >
-                    <MenuItem value="">
+                    <MenuItem>
                       <em>Selectionner une catégorie</em>
                     </MenuItem>
-                    {typePermis.map((permis, index) => (
-                      <MenuItem value={index}>{permis}</MenuItem>
+                    {allCatgegorie.map((permis, index) => (
+                      <MenuItem value={permis.letter}>
+                        {permis.letter} - {permis.description}
+                      </MenuItem>
                     ))}
                   </Select>
                 </FormControl>
@@ -343,6 +420,109 @@ const Clients = () => {
           </Dialog>
         </React.Fragment>
       )}
+
+      {/* Add client */}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            borderRadius: 2,
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Ajouter un client
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Nom"
+              name="firstName"
+              fullWidth
+              margin="dense"
+              onChange={(eo) => setnom(eo.target.value)}
+              required
+            />
+            <TextField
+              label="Prénom"
+              name="lastName"
+              fullWidth
+              margin="dense"
+              onChange={(eo) => setprenom(eo.target.value)}
+              required
+            />
+            <TextField
+              label="Téléphone"
+              name="telephone"
+              fullWidth
+              margin="dense"
+              onChange={(eo) => settelephone(eo.target.value)}
+              required
+            />
+            <TextField
+              label="Date d'inscription"
+              name="dateInscription"
+              type="date"
+              fullWidth
+              margin="dense"
+              InputLabelProps={{ shrink: true }}
+              onChange={(eo) => setdate(eo.target.value)}
+              required
+            />
+            <Select
+              name="categorie"
+              fullWidth
+              margin="dense"
+              onChange={(eo) => setcategorie(eo.target.value)}
+              required
+              displayEmpty
+            >
+              <MenuItem value="" disabled>
+                Choisir une catégorie
+              </MenuItem>
+              {allCatgegorie.map((permis, index) => (
+                <MenuItem value={permis.letter}>
+                  {permis.letter} - {permis.description}
+                </MenuItem>
+              ))}
+            </Select>
+            <TextField
+              label="Prix"
+              name="prix"
+              type="number"
+              fullWidth
+              margin="dense"
+              onChange={(eo) => setprix(eo.target.value)}
+              required
+            />
+            <button
+              type="submit"
+              variant="contained"
+              className="btnAdd"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              onClick={() => handleSubmit}
+            >
+              Ajouter
+            </button>
+          </form>
+        </Box>
+      </Modal>
 
       {modalPaiment && (
         <React.Fragment>
@@ -369,7 +549,7 @@ const Clients = () => {
                 >
                   Paiment client : {clientName}
                 </Typography>
-                <Button autoFocus color="inherit" onClick={handleClose}>
+                <Button autoFocus color="inherit">
                   Sauvegarder
                 </Button>
               </Toolbar>

@@ -41,13 +41,6 @@ const Sidebar = () => {
         <li>
           <i
             style={{ paddingRight: "1rem", fontSize: "22px" }}
-            class="fa-solid fa-money-bill"
-          ></i>{" "}
-          <Link to="/dashboard/deponses">Deponses</Link>
-        </li>
-        <li>
-          <i
-            style={{ paddingRight: "1rem", fontSize: "22px" }}
             class="fa-solid fa-calendar-days"
           ></i>{" "}
           <Link to="/dashboard/calendar">Calendar</Link>
@@ -63,17 +56,17 @@ const Sidebar = () => {
           Configuration
           {toggleConfiguration && (
             <ul>
-              <li>
-                <Link to="/configuration/profile">Profile</Link>
-              </li>
+              {/* <li>
+                <Link to="/dashboard/profile">Profile</Link>
+              </li> */}
               <li>
                 <Link to="/dashboard/categories">Categories</Link>
               </li>
               <li>
-                <Link to="/configuration/vehucule">Vehicule</Link>
+                <Link to="/dashboard/vihucule">Vehicule</Link>
               </li>
               <li>
-                <Link to="/configuration/moniteurs">Moniteurs</Link>
+                <Link to="/dashboard/moniteure">Moniteurs</Link>
               </li>
             </ul>
           )}

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Navbar = () => {
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <>
-    </>
+    <></>
     // <div className="navbar-dashboard">
     //   <button
     //     onClick={() => setIsMenuOpen(!isMenuOpen)}

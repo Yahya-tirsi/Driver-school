@@ -1,0 +1,257 @@
+{
+  "client": [
+    {
+      "firstName": "Badr",
+      "lastName": "Brown",
+      "telephone": "0658574777",
+      "dateInscription": "",
+      "categorie": "C",
+      "prix": "75",
+      "id": "b7c3"
+    },
+    {
+      "firstName": "Yahya",
+      "lastName": "Tirsi",
+      "telephone": "06424252",
+      "dateInscription": "",
+      "categorie": "A",
+      "prix": "3000",
+      "id": "9df0"
+    },
+    {
+      "id": "83a0",
+      "firstName": "Mohamed",
+      "lastName": "karim",
+      "telephone": "8329833",
+      "dateInscription": "2025-02-28",
+      "categorie": "B",
+      "prix": "3000"
+    },
+    {
+      "id": "5206",
+      "firstName": "yahya",
+      "lastName": "tirsi",
+      "telephone": "2187278827",
+      "dateInscription": "2025-02-08",
+      "categorie": "D",
+      "prix": "2000"
+    },
+    {
+      "firstName": "yahya",
+      "lastName": "tirsi",
+      "telephone": "2187278827",
+      "dateInscription": "",
+      "categorie": "B",
+      "prix": "8000",
+      "id": "066a"
+    },
+    {
+      "id": "bcb0",
+      "firstName": "Mohamed",
+      "lastName": "tirsi",
+      "telephone": "2187278827",
+      "dateInscription": "2025-02-16",
+      "categorie": "A",
+      "prix": "555",
+      "idPaiment": 1
+    }
+  ],
+  "moniteure": [
+    {
+      "name": "Mohamed Jamal",
+      "code": "9999",
+      "id": "1"
+    },
+    {
+      "name": "Ali",
+      "code": "86899",
+      "id": "3967"
+    },
+    {
+      "id": "228c",
+      "name": "Monir",
+      "code": "287672"
+    },
+    {
+      "id": "75c7",
+      "name": "Yassir",
+      "code": "9000"
+    },
+    {
+      "id": "b135",
+      "name": "Laila",
+      "code": "9833"
+    },
+    {
+      "id": "3c0e",
+      "name": "MOrad",
+      "code": "76562"
+    },
+    {
+      "id": "e02a",
+      "name": "Yassir",
+      "code": "moradi"
+    }
+  ],
+  "vehicules": [
+    {
+      "matricule": "T838383",
+      "categorie": "A",
+      "id": "2"
+    },
+    {
+      "matricule": "B8484844",
+      "categorie": "B",
+      "id": "3"
+    },
+    {
+      "id": "4",
+      "matricule": "A3773788",
+      "categorie": "D"
+    },
+    {
+      "id": "5",
+      "matricule": "T12345678",
+      "categorie": "E"
+    },
+    {
+      "id": "6",
+      "matricule": "D94040",
+      "categorie": "F"
+    },
+    {
+      "id": "9fc8",
+      "matricule": "T838383",
+      "categorie": "A"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "letter": "A",
+      "description": "Permis moto",
+      "name": "Category A",
+      "price": "1500DH"
+    },
+    {
+      "id": "2",
+      "letter": "B",
+      "description": "Permis auto",
+      "name": "Category B",
+      "price": "1700DH"
+    },
+    {
+      "id": "3",
+      "letter": "C",
+      "description": "Permis professionnels (transport de marchandises ou de matériel)",
+      "name": "Category C",
+      "price": "2000DH"
+    },
+    {
+      "id": "4",
+      "letter": "D",
+      "description": "Permis moto",
+      "name": "Category D",
+      "price": "1500DH"
+    },
+    {
+      "id": "03f7",
+      "description": "Category E",
+      "name": "E",
+      "price": "9000"
+    }
+  ],
+  "paiment": [
+    {
+      "id": "1",
+      "idClient": "b7c3",
+      "totalPaiment": 3000,
+      "payerFois": [
+        {
+          "date": "24/11/2004",
+          "prix": 199
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "idClient": "b7c3",
+      "totalPaiment": 3000,
+      "payerFois": [
+        {
+          "date": "24/11/2004",
+          "prix": 199
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "idClient": "b7c3",
+      "totalPaiment": 3000,
+      "payerFois": [
+        {
+          "date": "24/11/2004",
+          "prix": 199
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "idClient": "b7c3",
+      "totalPaiment": 3000,
+      "payerFois": [
+        {
+          "date": "24/11/2004",
+          "prix": 199
+        }
+      ]
+    },
+    {
+      "id": "90bc",
+      "idClient": "",
+      "totalPaiment": "3000",
+      "dateInscription": "2025-02-28",
+      "categorie": "B",
+      "prix": "3000",
+      "payerFois": [
+        {
+          "date": "2025-02-28",
+          "prix": "3000"
+        }
+      ]
+    },
+    {
+      "id": "34e7",
+      "idClient": "",
+      "totalPaiment": "2000",
+      "payerFois": [
+        {
+          "date": "2025-02-08",
+          "prix": "2000"
+        }
+      ]
+    },
+    {
+      "id": "79ed",
+      "idClient": 1,
+      "totalPaiment": "8000",
+      "payerFois": [
+        {
+          "date": "2025-02-13",
+          "prix": "8000"
+        }
+      ]
+    },
+    {
+      "id": "9efe",
+      "idClient": 1,
+      "totalPaiment": "555",
+      "payerFois": [
+        {
+          "date": "2025-02-16",
+          "prix": "555"
+        }
+      ]
+    }
+  ]
+}

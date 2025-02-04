@@ -4,8 +4,73 @@
   --light-color: white;
   --primary-color: #c3d900;
 }
+
 .navbar .title {
   font-size: 20px;
+}
+
+.topClient {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.trush-icone{
+  transition: 0.2s;
+}
+.trush-icone:hover{
+  color: red;
+}
+.add-icone-fixed-buttom{
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 50px;
+  border: none;
+  box-shadow: 0px 0px 13px var(--primary-color);
+  padding: 0.5rem 1rem;
+  font-size: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.add-icone-fixed-buttom:hover{
+  transform: translate(0px,-10px);
+}
+.btnAdd {
+  background-color: var(--primary-color);
+  text-align: center;
+  border: none;
+  padding: 0.7rem 5rem;
+  margin-top: 1rem;
+  margin-right: auto;
+  border-radius: 18px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btnAdd:hover{
+  background-color: var(--dark-color);
+  color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+.btnAjouter-client {
+  background-color: var(--primary-color);
+  color: var(--dark-color);
+  border-radius: 18px;
+  padding: 1rem 4rem;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border: 1px solid var(--dark-color);
+  transition: 0.2s;
+}
+.btnAjouter-client:hover {
+  background-color: var(--dark-color);
+  color: var(--primary-color);
+  transform: scale(1.05);
 }
 
 /* Sidebar styles */
@@ -24,7 +89,7 @@
   margin-bottom: 20px;
 }
 
-.hr-dashboard{
+.hr-dashboard {
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
   box-shadow: 0px 0px 15px var(--primary-color);
@@ -41,7 +106,9 @@
 
 .navbar-dashboard {
   background-color: var(--dark-color);
-  padding: 0.5rem;
+  border-radius: 15px;
+  padding: 1rem;
+  width: 95%;
   justify-content: space-between;
 }
 
@@ -75,12 +142,17 @@
   transition: 0.2s;
   border-radius: 13px;
 }
-.sidebar ul li:hover{
+.sidebar ul li:hover {
   background-color: #343434;
   cursor: pointer;
 }
-
-#logout-dashboard:hover{
+#modal-modal-title {
+  color: var(--primary-color);
+}
+.btn-ajouter-moniteure {
+  background-color: var(--primary-color);
+}
+#logout-dashboard:hover {
   background-color: #380000;
 }
 .sidebar ul li a {
@@ -106,17 +178,15 @@
   padding: 0.5rem;
   margin: 0 0.2rem;
 }
-.btn-sup-dashboeard {
-  background-color: red;
-}
+
 .btn-view-dashboeard {
-  background-color: aqua;
+  color: var(--dark-color);
 }
 .btn-mony-dashboeard {
-  background-color: green;
+  color: var(--dark-color);
 }
 .btn-modify-dashboeard {
-  background-color: blue;
+  color: var(--dark-color);
 }
 
 .h2-dashboard {
@@ -142,10 +212,10 @@
   transform: scale(0.95);
 }
 .btn-sup-dashboeard {
-  background-color: red;
+  color: var(--dark-color);
 }
 .btn-view-dashboeard {
-  background-color: var(--primary-color);
+  color: var(--dark-color);
 }
 .configrution-toggle-dashboard {
   font-size: 20px;
@@ -180,20 +250,111 @@
   margin-bottom: 20px;
 }
 
-.content-aiment-dashbeard{
+.content-aiment-dashbeard {
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin-top: 5rem;
 }
-.child-paiment-two{
+.child-paiment-two {
   width: 40%;
 }
-.child-paiment-one{
+.child-paiment-one {
   width: 40%;
 }
 
 /* Categorie */
-.h2-categories{
+.h2-categories {
   color: var(--primary-color);
+}
+
+/* Container */
+.card-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  background-color: #121212;
+  min-height: 100vh;
+}
+
+/* Card Styling */
+.moniteure-cards {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 0;
+}
+.card-moniteure {
+  position: relative;
+  background-color: var(--dark-color);
+  color: white;
+  padding: 0px 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 25%;
+}
+
+.title {
+  color: gray;
+}
+
+/* Icons */
+.icon-group {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  display: flex;
+}
+
+.icon {
+  background: none;
+  border: none;
+  color: gray;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: lightblue;
+}
+
+.delete:hover {
+  color: red;
+}
+
+/* Tooltip */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  color: white;
+  padding: 5px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.tooltip-container:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+
+.title-sup {
+  color: var(--primary-color);
+}
+
+#fc-dom-86{
+  color: var(--dark-color);
 }
