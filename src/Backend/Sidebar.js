@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./styles.css";
 import { colors } from "@mui/material";
+import ClientApi from "../services/Api/Client/ClientApi";
 
 const Sidebar = () => {
   const [toggleConfiguration, settoggleonfiguration] = useState(false);
   function handleConfiguration() {
     settoggleonfiguration(!toggleConfiguration);
   }
+  const navigate = useNavigate();
+  const logout = async()=>{
+    try {
+      const response = await ClientApi.logout();
+      localStorage.removeItem('token');
+      navigate('/login');
+  } catch (err) {
+    console.log(err);
+  }
+  };
   return (
     <div className="sidebar">
       <img
@@ -73,12 +84,12 @@ const Sidebar = () => {
         </li>
         <hr className="hr-dashboard"></hr>
 
-        <li id="logout-dashboard">
+        <li id="logout-dashboard" onClick={logout}>
           <i
             style={{ paddingRight: "1rem", fontSize: "22px" }}
             class="fa-solid fa-right-from-bracket"
           ></i>
-          <Link to="/login">Logout</Link>
+          Logout
         </li>
       </ul>
     </div>

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Client extends Authenticatable
+class admin extends Authenticatable
 {
-    use HasApiTokens;
+    use HasFactory, HasApiTokens;
     protected $fillable = [
         'cin',
         'firstname',
@@ -16,15 +18,11 @@ class Client extends Authenticatable
         'password',
         'telephone',
         'address',
-        'picture',
-        'front_picture_of_identity',
-        'back_picture_of_identity',
-        'permis_type_id',
     ];
     protected $hidden = ['password'];
     protected $appends = ['role'];
     public function getRoleAttribute()
     {
-        return 'client';
+        return 'admin';
     }
 }

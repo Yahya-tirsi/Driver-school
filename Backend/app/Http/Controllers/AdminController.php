@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PermisType;
+use App\Models\admin;
 use Illuminate\Http\Request;
 
-class PermisTypeController extends Controller
+class AdminController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $permisTypes = PermisType::all();
-        return response()->json($permisTypes);
+        //
     }
 
     /**
@@ -27,7 +26,7 @@ class PermisTypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PermisType $permisType)
+    public function show(admin $admin)
     {
         //
     }
@@ -35,7 +34,7 @@ class PermisTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PermisType $permisType)
+    public function update(Request $request, admin $admin)
     {
         //
     }
@@ -43,7 +42,7 @@ class PermisTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PermisType $permisType)
+    public function destroy(admin $admin)
     {
         //
     }

@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\admin;
 use App\Models\PermisType;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,6 +17,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        admin::factory()->create([
+            'cin' => 'BH123456',
+            'firstname' => 'Mohammed',
+            'lastname' => 'Naju',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('1234'),
+            'telephone' => '0600112233',
+            'address' => 'Hassania 2, Rue 52, N 59',
+        ]);
         PermisType::factory()->create([
             'name' => 'A',
             'price' => '3200',

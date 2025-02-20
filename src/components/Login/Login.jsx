@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./style.css";
-// import '@fortawesome/fontawesome-free/css/all.min.css';
+import "./login.css";
 import { useNavigate } from "react-router-dom";
+import ClientApi from "../../services/Api/Client/ClientApi";
 
-const LoginPage = () => {
-    const [data, setData] = useState({
+const Login = () => {
+    const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
@@ -14,7 +14,7 @@ const LoginPage = () => {
     const [success, setSuccess] = useState('');
 
     const handleChange = (e) => {
-        setData(prev => ({
+        setFormData(prev => ({
             ...prev,
             [e.target.name]: e.target.value
         }));
@@ -28,36 +28,24 @@ const LoginPage = () => {
         setSuccess('');
 
         try {
-            // Récupérer la liste des utilisateurs
-            const response = await axios.get('http://localhost:3004/client');
-            const users = response.data;
-
-            // Vérifier les identifiants
-            const user = users.find(user => 
-                user.email === data.email && user.password === data.password
-            );
-
-            if(user) {
-                setSuccess('Connexion réussie !');
-                // Redirection ou gestion de l'état d'authentification ici
-                if(user.role == "super"){
-                    navigate('/dashboard')
-                }
-                    if(user.role == "client"){
-                        navigate('/Dashbordclient')
-                    }
-                    if(user.role == "admin"){
-                        navigate('/Dashbordadmine')
-                    }
-                    if(user.role == "moniteur"){
-                        navigate('/Dashbordmoniteur')
-                    }
-            } else {
-                setError('Email ou mot de passe incorrect');
+            await ClientApi.getCsrfToken();
+            const {data} = await ClientApi.login(formData.email,formData.password);
+            localStorage.setItem('token',data.token);
+            switch(data.user.role)
+            {
+                case 'client':
+                    navigate('/Dashbordclient');
+                    break;
+                case 'admin':
+                    navigate('/dashboard/statistiques');
+                    break;
+                default:
             }
         } catch (err) {
-            setError('Erreur de connexion au serveur');
-            console.error('Erreur:', err);
+            if(err.status === 422)
+            {
+                setError('Invalid email or password');
+            }
         } finally {
             setLoading(false);
         }
@@ -77,7 +65,7 @@ const LoginPage = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={data.email}
+                value={formData.email}
                 onChange={handleChange}
                 placeholder="Entrez votre email"
                 required
@@ -89,7 +77,7 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 name="password"
-                value={data.password}
+                value={formData.password}
                 onChange={handleChange}
                 placeholder="Entrez votre mot de passe"
                 required
@@ -114,4 +102,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default Login;

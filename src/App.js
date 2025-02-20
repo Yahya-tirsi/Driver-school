@@ -28,7 +28,6 @@ import Deponses from "./Backend/pages/Deponses";
 import DemoApp from "./Backend/Calendar/DemoApp";
 import Statistiques from "./Backend/pages/statistics/Statistiques";
 import StatisticsPage from "./Backend/pages/statistics/Statistiques";
-import LoginPage from "./login/login";
 import DashboardC from "./client/DashboardC";
 import SidebarClient from "./client/SidebarClient";
 import Dashbordmoniteur from "./moniteur/dashbordmoniteur";
@@ -36,6 +35,7 @@ import PermisC from "./client/Permis";
 import VideoListPage from "./client/vedio";
 import ProfileC from "./client/ProfileC";
 import PaymentsC from "./client/Payments";
+import Login from "./components/Login/Login.jsx";
 
 // Custom hook to check the current route inside the BrowserRouter
 const useIsDashboardRoute = () => {
@@ -93,8 +93,7 @@ function Main() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/reservation" element={<DrivingSchoolForm />} />
-        <Route path="/login" element={<LoginPage />} />
-
+        <Route path="/login" element={<Login />} />
         {/* Dashboard Routes */}
         <Route
           path="/dashboard/*" // This will match /dashboard and its child routes

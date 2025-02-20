@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../Backend/styles.css";
+import ClientApi from "../services/Api/Client/ClientApi";
 
 const SidebarClient = () => {
   const [showConfig, setShowConfig] = useState(false);
@@ -11,7 +12,16 @@ const SidebarClient = () => {
     { path: "/PaymentsC", icon: "fa-money-bill", label: "Payee" },
     { path: "/PermisC", icon: "fa-id-card", label: "Permis" },
   ];
-
+  const navigate = useNavigate();
+  const logout = async()=>{
+    try {
+      const response = await ClientApi.logout();
+      localStorage.removeItem('token');
+      navigate('/login');
+  } catch (err) {
+    console.log(err);
+  }
+  };
   return (
     <nav className="sidebar" aria-label="Main navigation">
       <img
@@ -54,11 +64,9 @@ const SidebarClient = () => {
 
         <hr className="hr-dashboard" />
 
-        <li className="logout-item">
-          <Link to="/login" className="logout-link">
+        <li className="logout-item" onClick={logout}>
             <i className="fa-solid fa-right-from-bracket menu-icon" />
             Logout
-          </Link>
         </li>
       </ul>
     </nav>

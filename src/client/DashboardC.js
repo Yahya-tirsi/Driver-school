@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Profile from './ProfileC';
 import Payments from './Payments';
 import Permis from './Permis';
 
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
+import ClientApi from '../services/Api/Client/ClientApi';
     const settings = {
         width: 600,
         height: 500,
         value: 60,
     };
 const DashboardC = () => {
-    const client = {
-        photo: 'https://i.pinimg.com/736x/c7/9a/37/c79a37e13ef14be556b51143bcbb1b01.jpg',
-        nom: 'Dupont',
-        prenom: 'Jean',
-        telephone: '06 12 34 56 78',
-    };
+    const [client,setClient] = useState({});
+    useEffect(() => {
+        const getCurrentClient = async () => {
+        try {
+            const { data } = await ClientApi.client();
+            setClient(data);
+        } catch (error) {
+            console.error("Error fetching client data:", error);
+        }
+        };
+        getCurrentClient();
+    }, []);
+
 
     const payments = [
         { date: '2023-10-01', montant: 500, methode: 'Carte de crédit' },
@@ -65,8 +73,8 @@ const DashboardC = () => {
             <button style={styles.paymentsTitle}><h4 >Historique des Paiements</h4></button>
         </div>
             <div style={styles.profileContainer}>
-            <img src={client.photo} alt="Profile" style={styles.profileImage} />
-            <h2 style={styles.name}>{client.nom} {client.prenom}</h2>
+            <img src={`http://localhost:8000/storage/${client.picture}`} alt="Profile" style={styles.profileImage} />
+            <h2 style={styles.name}>{client.lastname} {client.firstname}</h2>
             <p style={styles.phone}>Téléphone: {client.telephone}</p>
         </div>
 
