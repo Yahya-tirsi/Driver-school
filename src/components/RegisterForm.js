@@ -6,7 +6,7 @@ import ClientApi from "../services/Api/Client/ClientApi";
 import axiosClient from "../api/axios";
 import { ContinuousColorLegend } from "@mui/x-charts";
 
-const DrivingSchoolForm = () => {
+const RegisterForm = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     nom: "",
@@ -400,4 +400,4 @@ const navigate=useNavigate();
   );
 };
 
-export default DrivingSchoolForm;
+export default RegisterForm;

@@ -13,7 +13,7 @@ import Contact from "./components/Contact";
 import About from "./components/About";
 import CertificationsSection from "./components/CertificationsSection";
 import ReservationSection from "./components/Reservation";
-import DrivingSchoolForm from "./components/dd";
+import RegisterForm from "./components/RegisterForm";
 import BranchMap from "./components/map";
 
 // Dashboard components (Navbar, Sidebar, Dashboard pages)
@@ -92,7 +92,7 @@ function Main() {
         <Route path="/testimonials" element={<Testimonials />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/reservation" element={<DrivingSchoolForm />} />
+        <Route path="/reservation" element={<RegisterForm />} />
         <Route path="/login" element={<Login />} />
         {/* Dashboard Routes */}
         <Route
